@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Import Excel to SQL Tables";
+}
+
+<div class="container mt-4">
+    <h2>Import Excel Data to SQL Tables</h2>
+    <p class="lead">Upload an Excel file and select which sheet to import into the database.</p>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+
+        @if (TempData["ImportedCounts"] != null)
+        {
+            var importedCounts = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>((string)TempData["ImportedCounts"]);
+
+            <div class="card mt-3">
+                <div class="card-header">
+                    Import Details
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        @foreach (var item in importedCounts)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Table: @item.Key
+                                <span class="badge bg-primary rounded-pill">@item.Value records</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <form asp-action="SelectSheet" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="file" class="form-label">Select Excel File</label>
+                    <input type="file" class="form-control" id="file" name="file" accept=".xlsx, .xls" required>
+                    <div class="form-text">Supports all Excel files (.xlsx, .xls)</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Next</button>
+            </form>
+        </div>
+    </div>
+</div>

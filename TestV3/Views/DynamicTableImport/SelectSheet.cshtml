@@ -1,0 +1,30 @@
+﻿@model List<string>
+@{
+    ViewData["Title"] = "Select Sheet to Import";
+}
+
+<div class="container mt-4">
+    <h2>Select Sheet to Import</h2>
+    <p class="lead">Please select which sheet you want to import from the Excel file.</p>
+
+    <div class="card">
+        <div class="card-body">
+            <form asp-action="ImportSelectedSheet" method="post">
+                <div class="mb-3">
+                    <label for="selectedSheet" class="form-label">Available Sheets</label>
+                    <select name="selectedSheet" id="selectedSheet" class="form-select" required>
+                        <option value="">-- Select a sheet --</option>
+                        @foreach (var sheet in Model)
+                        {
+                            <option value="@sheet">@sheet</option>
+                        }
+                    </select>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Import Selected Sheet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

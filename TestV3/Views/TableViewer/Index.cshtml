@@ -1,0 +1,94 @@
+﻿@model TestV3.Models.TableViewerModel
+@using System.Data
+@{
+    ViewData["Title"] = "Table Viewer";
+}
+
+<div class="container mt-4">
+    <h2>Database Table Viewer</h2>
+
+    @if (ViewBag.NoTables != null && ViewBag.NoTables)
+    {
+        <div class="alert alert-info">
+            No tables found in the database. Please import some data first.
+        </div>
+    }
+    else
+    {
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="d-flex">
+                    <select id="tableSelector" class="form-select me-2">
+                        @foreach (var table in Model.Tables)
+                        {
+                            <option value="@table" selected="@(table == Model.SelectedTable)">@table</option>
+                        }
+                    </select>
+                    <button id="viewTableBtn" class="btn btn-primary">View</button>
+                </div>
+            </div>
+            <div class="col-md-6 text-end">
+                <p class="mb-0 mt-2">
+                    Total Records: <strong id="totalRecords">@Model.TotalRecords</strong>
+                </p>
+            </div>
+        </div>
+
+        <div id="tableDataContainer">
+            @await Html.PartialAsync("_TableDataPartial", Model)
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Handle table selection
+            $('#viewTableBtn').click(function() {
+                loadTableData($('#tableSelector').val(), 1);
+            });
+
+            // Handle pagination via event delegation
+            $(document).on('click', '.page-nav', function() {
+                if (!$(this).parent().hasClass('disabled')) {
+                    const page = $(this).data('page');
+                    loadTableData($('#tableSelector').val(), page);
+                }
+                return false;
+            });
+
+            function loadTableData(tableName, page) {
+                $('#tableDataContainer').html('<div class="text-center my-5"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>');
+
+                $.ajax({
+                    url: '@Url.Action("GetTableData", "TableViewer")',
+                    type: 'GET',
+                    data: {
+                        tableName: tableName,
+                        page: page
+                    },
+                    success: function(data) {
+                        $('#tableDataContainer').html(data);
+                        // Update URL without reloading the page
+                        history.pushState(
+                            { tableName: tableName, page: page },
+                            '',
+                            '@Url.Action("Index", "TableViewer")' + '?tableName=' + tableName + '&page=' + page
+                        );
+                    },
+                    error: function(xhr, status, error) {
+                        $('#tableDataContainer').html('<div class="alert alert-danger">Error loading data: ' + error + '</div>');
+                    }
+                });
+            }
+
+            // Handle browser back/forward buttons
+            window.onpopstate = function(event) {
+                if (event.state) {
+                    loadTableData(event.state.tableName, event.state.page);
+                    $('#tableSelector').val(event.state.tableName);
+                }
+            };
+        });
+    </script>
+}
