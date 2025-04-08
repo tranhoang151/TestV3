@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TestV3.Migrations
 {
     /// <inheritdoc />
-    public partial class AddDynamicExcelDataTable : Migration
+    public partial class FistMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

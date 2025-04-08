@@ -12,8 +12,8 @@ using TestV3.Data;
 namespace TestV3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250404040222_AddDynamicExcelDataTable")]
-    partial class AddDynamicExcelDataTable
+    [Migration("20250408040653_Fist Migration")]
+    partial class FistMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace TestV3.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TestV2.Models.DynamicExcelData", b =>
+            modelBuilder.Entity("TestV3.Models.DynamicExcelData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

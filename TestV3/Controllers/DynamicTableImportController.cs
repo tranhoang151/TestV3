@@ -122,6 +122,7 @@ namespace TestV3.Controllers
 
             using (var stream = new MemoryStream(fileBytes))
             {
+                stream.Position = 0; // Đảm bảo đọc từ đầu stream
                 var result = _importService.ImportExcel(stream, selectedSheet);
 
                 if (result.Success)

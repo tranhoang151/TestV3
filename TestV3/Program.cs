@@ -19,7 +19,9 @@ namespace TestV3
 
             // Register DynamicTableImportService
             builder.Services.AddScoped<DynamicTableImportService>();
-            
+            // Add this line with your other service registrations
+            builder.Services.AddScoped<ICalculationService, CalculationService>();
+
             // Thêm Session
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>

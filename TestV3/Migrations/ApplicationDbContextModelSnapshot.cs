@@ -22,7 +22,7 @@ namespace TestV3.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TestV2.Models.DynamicExcelData", b =>
+            modelBuilder.Entity("TestV3.Models.DynamicExcelData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

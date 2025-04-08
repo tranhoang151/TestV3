@@ -1,0 +1,127 @@
+﻿@{
+    ViewData["Title"] = "Data Calculation";
+}
+
+<div class="container mt-4">
+    <h2>Data Calculation</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Calculate FMP EVN Data</h5>
+                    <p class="card-text">Calculate FMP EVN data from SMP and CAN data.</p>
+                    <form asp-action="CalculateFmpEvn" method="post">
+                        <button type="submit" class="btn btn-primary">Calculate</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Calculate PM EVN Data</h5>
+                    <p class="card-text">Calculate PM EVN data from FMP EVN and k data.</p>
+                    <form asp-action="CalculatePmEvn" method="post">
+                        <button type="submit" class="btn btn-primary">Calculate</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Calculate FMP Sai Data</h5>
+                    <p class="card-text">Calculate FMP Sai data from FMP EVN and FMP A0 data.</p>
+                    <form asp-action="CalculateFmpSai" method="post">
+                        <button type="submit" class="btn btn-primary">Calculate</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Calculate PM Sai Data</h5>
+                    <p class="card-text">Calculate PM Sai data from PM EVN and PM A0 data.</p>
+                    <form asp-action="CalculatePmSai" method="post">
+                        <button type="submit" class="btn btn-primary">Calculate</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h4>Calculation Results</h4>
+        </div>
+        <div class="card-body">
+            <div class="form-group mb-4">
+                <label for="tableSelector">Select Table:</label>
+                <select id="tableSelector" class="form-control">
+                    <option value="FmpEvn">FMP EVN</option>
+                    <option value="PmEvn">PM EVN</option>
+                    <option value="FmpSai">FMP Sai</option>
+                    <option value="PmSai">PM Sai</option>
+                </select>
+            </div>
+
+            <div id="tableContainer" class="table-responsive">
+                <!-- Table will be loaded here via AJAX -->
+                <div class="text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Load initial table
+            loadTable($("#tableSelector").val());
+
+            // Handle table selection change
+            $("#tableSelector").change(function() {
+                loadTable($(this).val());
+            });
+
+            function loadTable(tableName) {
+                $("#tableContainer").html('<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>');
+
+                $.ajax({
+                    url: '@Url.Action("GetTableData", "Calculation")',
+                    type: 'GET',
+                    data: { tableName: tableName },
+                    success: function(data) {
+                        $("#tableContainer").html(data);
+                    },
+                    error: function() {
+                        $("#tableContainer").html('<div class="alert alert-danger">Error loading table data.</div>');
+                    }
+                });
+            }
+        });
+    </script>
+}

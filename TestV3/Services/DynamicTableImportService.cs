@@ -19,40 +19,6 @@ namespace TestV3.Services
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        // Thêm phương thức mới để lấy danh sách sheet từ file Excel
-        public List<string> GetExcelSheets(Stream fileStream)
-        {
-            try
-            {
-                // Register encoding provider for Excel
-                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
-                using (var reader = ExcelReaderFactory.CreateReader(fileStream))
-                {
-                    var dataSet = reader.AsDataSet(new ExcelDataSetConfiguration
-                    {
-                        ConfigureDataTable = _ => new ExcelDataTableConfiguration
-                        {
-                            UseHeaderRow = true
-                        }
-                    });
-
-                    var sheetNames = new List<string>();
-                    for (int i = 0; i < dataSet.Tables.Count; i++)
-                    {
-                        sheetNames.Add(dataSet.Tables[i].TableName);
-                    }
-
-                    return sheetNames;
-                }
-            }
-            catch (Exception)
-            {
-                return new List<string>();
-            }
-        }
-
-        // Sửa phương thức ImportExcel để chỉ import sheet được chọn
         public (bool Success, string Message, Dictionary<string, int> ImportedCounts) ImportExcel(Stream fileStream, string selectedSheet = null)
         {
             try
@@ -81,7 +47,7 @@ namespace TestV3.Services
                     for (int i = 0; i < dataSet.Tables.Count; i++)
                     {
                         var dataTable = dataSet.Tables[i];
-                        var sheetName = SanitizeTableName(dataTable.TableName);
+                        var sheetName = dataTable.TableName;
 
                         // Skip if not the selected sheet (when a sheet is selected)
                         if (!string.IsNullOrEmpty(selectedSheet) && sheetName != selectedSheet)
@@ -89,21 +55,17 @@ namespace TestV3.Services
                             continue;
                         }
 
+                        var sanitizedSheetName = SanitizeTableName(sheetName);
+
                         if (dataTable.Rows.Count == 0 || dataTable.Columns.Count == 0)
                         {
-                            importedCounts.Add(sheetName, 0);
+                            importedCounts.Add(sanitizedSheetName, 0);
                             continue;
                         }
 
                         // Create or update table and import data
-                        var importedCount = CreateTableAndImportData(dataTable, sheetName);
-                        importedCounts.Add(sheetName, importedCount);
-
-                        // If we're only importing a specific sheet, we can break after finding it
-                        if (!string.IsNullOrEmpty(selectedSheet))
-                        {
-                            break;
-                        }
+                        var importedCount = CreateTableAndImportData(dataTable, sanitizedSheetName);
+                        importedCounts.Add(sanitizedSheetName, importedCount);
                     }
 
                     int totalCount = importedCounts.Values.Sum();
@@ -113,6 +75,41 @@ namespace TestV3.Services
             catch (Exception ex)
             {
                 return (false, $"Error reading Excel file: {ex.Message}", new Dictionary<string, int>());
+            }
+        }
+
+        public List<string> GetExcelSheets(Stream fileStream)
+        {
+            try
+            {
+                // Register encoding provider for Excel
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+                fileStream.Position = 0; // Đảm bảo đọc từ đầu stream
+
+                using (var reader = ExcelReaderFactory.CreateReader(fileStream))
+                {
+                    var dataSet = reader.AsDataSet(new ExcelDataSetConfiguration
+                    {
+                        ConfigureDataTable = _ => new ExcelDataTableConfiguration
+                        {
+                            UseHeaderRow = true
+                        }
+                    });
+
+                    var sheetNames = new List<string>();
+                    for (int i = 0; i < dataSet.Tables.Count; i++)
+                    {
+                        sheetNames.Add(dataSet.Tables[i].TableName);
+                    }
+
+                    return sheetNames;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error getting Excel sheets: {ex.Message}");
+                return new List<string>();
             }
         }
 
