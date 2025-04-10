@@ -1,0 +1,96 @@
+﻿@model TestV3.Models.CSPOT.TongHopCspot
+@{
+    ViewData["Title"] = "Chi tiết CSPOT";
+}
+
+<div class="container-fluid">
+    <h2>Chi tiết CSPOT - @Model.Ngay?.ToString("dd/MM/yyyy")</h2>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Thông tin sản lượng</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Sản lượng QM1 (Phú Mỹ)</th>
+                            <td>@Model.SanLuongQm1</td>
+                        </tr>
+                        <tr>
+                            <th>Sản lượng QM2</th>
+                            <td>@Model.SanLuongQm2</td>
+                        </tr>
+                        <tr>
+                            <th>Sản lượng TB</th>
+                            <td>@Model.SanLuongTb</td>
+                        </tr>
+                        <tr>
+                            <th>Sản lượng VT4</th>
+                            <td>@Model.SanLuongVt4</td>
+                        </tr>
+                        <tr>
+                            <th>Sản lượng VT4 MR</th>
+                            <td>@Model.SanLuongVt4Mr</td>
+                        </tr>
+                        <tr>
+                            <th>Sản lượng DH3 MR</th>
+                            <td>@Model.SanLuongDh3Mr</td>
+                        </tr>
+                        <tr class="table-primary">
+                            <th>Tổng sản lượng QM</th>
+                            <td>@Model.SanLuongQm</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Thông tin chi phí</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Chi phí CM1 (Phú Mỹ)</th>
+                            <td>@Model.ChiPhiCm1</td>
+                        </tr>
+                        <tr>
+                            <th>Chi phí CM2</th>
+                            <td>@Model.ChiPhiCm2</td>
+                        </tr>
+                        <tr>
+                            <th>Chi phí TB</th>
+                            <td>@Model.ChiPhiTb</td>
+                        </tr>
+                        <tr>
+                            <th>Chi phí VT4</th>
+                            <td>@Model.ChiPhiVt4</td>
+                        </tr>
+                        <tr>
+                            <th>Chi phí VT4 MR</th>
+                            <td>@Model.ChiPhiVt4Mr</td>
+                        </tr>
+                        <tr>
+                            <th>Chi phí DH3 MR</th>
+                            <td>@Model.ChiPhiDh3Mr</td>
+                        </tr>
+                        <tr class="table-success">
+                            <th>Tổng chi phí</th>
+                            <td>@Model.TongChiPhi</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Quay lại danh sách
+        </a>
+    </div>
+</div>

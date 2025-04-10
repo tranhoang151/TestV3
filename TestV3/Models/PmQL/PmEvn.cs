@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TestV3.Models;
+namespace TestV3.Models.PmQL;
 
-[Table("FMP_SAI")]
-public partial class FmpSai
+[Table("Pm_EVN")]
+public partial class PmEvn
 {
     public int Id { get; set; }
 

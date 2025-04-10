@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TestV3.Models;
+namespace TestV3.Models.PmQL;
 
 [Table("NhapGiaNM")]
 public partial class NhapGiaNm

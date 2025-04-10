@@ -1,0 +1,125 @@
+﻿@model IEnumerable<TestV3.Models.CSPOT.TongHopCspot>
+@{
+    ViewData["Title"] = "Tổng hợp CSPOT";
+}
+
+<div class="container-fluid">
+    <h2>Tổng hợp CSPOT</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <form asp-action="CalculateTongHopCspot" method="post">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-calculator"></i> Tính toán dữ liệu tổng hợp
+                </button>
+            </form>
+        </div>
+        <div class="col-md-6 text-end">
+            <a asp-action="Report" class="btn btn-info">
+                <i class="fas fa-chart-bar"></i> Xem báo cáo
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Dữ liệu tổng hợp CSPOT</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Ngày</th>
+                            <th>Sản lượng QM</th>
+                            <th>Sản lượng QM1</th>
+                            <th>Sản lượng QM2</th>
+                            <th>Sản lượng TB</th>
+                            <th>Sản lượng VT4</th>
+                            <th>Sản lượng VT4 MR</th>
+                            <th>Sản lượng DH3 MR</th>
+                            <th>Chi phí CM1</th>
+                            <th>Chi phí CM2</th>
+                            <th>Chi phí TB</th>
+                            <th>Chi phí VT4</th>
+                            <th>Chi phí VT4 MR</th>
+                            <th>Chi phí DH3 MR</th>
+                            <th>Tổng chi phí</th>
+                            <th>Chi tiết</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.Ngay?.ToString("dd/MM/yyyy")</td>
+                                    <td>@item.SanLuongQm</td>
+                                    <td>@item.SanLuongQm1</td>
+                                    <td>@item.SanLuongQm2</td>
+                                    <td>@item.SanLuongTb</td>
+                                    <td>@item.SanLuongVt4</td>
+                                    <td>@item.SanLuongVt4Mr</td>
+                                    <td>@item.SanLuongDh3Mr</td>
+                                    <td>@item.ChiPhiCm1</td>
+                                    <td>@item.ChiPhiCm2</td>
+                                    <td>@item.ChiPhiTb</td>
+                                    <td>@item.ChiPhiVt4</td>
+                                    <td>@item.ChiPhiVt4Mr</td>
+                                    <td>@item.ChiPhiDh3Mr</td>
+                                    <td>@item.TongChiPhi</td>
+                                    <td>
+                                        <a asp-action="Details" asp-route-date="@item.Ngay?.ToString("yyyy-MM-dd")" class="btn btn-sm btn-info">
+                                            <i class="fas fa-info-circle"></i> Chi tiết
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                            <tr class="table-primary fw-bold">
+                                <td colspan="2" class="text-center">Tổng cộng</td>
+                                <td>@Model.Sum(x => x.SanLuongQm ?? 0)</td>
+                                <td>@Model.Sum(x => x.SanLuongQm1 ?? 0)</td>
+                                <td>@Model.Sum(x => x.SanLuongQm2 ?? 0)</td>
+                                <td>@Model.Sum(x => x.SanLuongTb ?? 0)</td>
+                                <td>@Model.Sum(x => x.SanLuongVt4 ?? 0)</td>
+                                <td>@Model.Sum(x => x.SanLuongVt4Mr ?? 0)</td>
+                                <td>@Model.Sum(x => x.SanLuongDh3Mr ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChiPhiCm1 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChiPhiCm2 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChiPhiTb ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChiPhiVt4 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChiPhiVt4Mr ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChiPhiDh3Mr ?? 0)</td>
+                                <td>@Model.Sum(x => x.TongChiPhi ?? 0)</td>
+                                
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="17" class="text-center">Không có dữ liệu</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

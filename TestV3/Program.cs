@@ -16,11 +16,16 @@ namespace TestV3
             // Thêm DbContext
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddDbContext<TestV3Context>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
             // Register DynamicTableImportService
             builder.Services.AddScoped<DynamicTableImportService>();
             // Add this line with your other service registrations
             builder.Services.AddScoped<ICalculationService, CalculationService>();
+
+            builder.Services.AddScoped<ICspotCalculationService, CspotCalculationService>();
 
             // Thêm Session
             builder.Services.AddDistributedMemoryCache();

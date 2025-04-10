@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Collections.Generic;
-using TestV3.Models;
+using TestV3.Models.PmQL;
 
 namespace TestV3.Services
 {

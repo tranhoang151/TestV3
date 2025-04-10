@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using TestV3.Models;
+using TestV3.Models.PmQL;
 
 namespace TestV3.Data;
 

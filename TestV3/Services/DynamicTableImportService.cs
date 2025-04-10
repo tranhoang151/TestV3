@@ -291,8 +291,89 @@ namespace TestV3.Services
 
         private string DetermineColumnType(DataTable dataTable, int columnIndex)
         {
-            // Default to NVARCHAR(MAX) for simplicity
-            return "NVARCHAR(MAX)";
+            DataColumn column = dataTable.Columns[columnIndex];
+
+            // Skip empty columns or columns with no rows
+            if (dataTable.Rows.Count == 0)
+                return "NVARCHAR(MAX)";
+
+            // Check if all values are null or empty
+            bool allNullOrEmpty = true;
+            // Flags for type detection
+            bool couldBeInt = true;
+            bool couldBeDecimal = true;
+            bool couldBeDateTime = true;
+            bool couldBeBoolean = true;
+
+            int maxLength = 0;
+
+            // Examine sample values (up to the first 100 rows for performance)
+            for (int i = 0; i < Math.Min(dataTable.Rows.Count, 100); i++)
+            {
+                var value = dataTable.Rows[i][columnIndex];
+
+                // Skip null or empty values
+                if (value == DBNull.Value || string.IsNullOrWhiteSpace(value.ToString()))
+                    continue;
+
+                allNullOrEmpty = false;
+                string stringValue = value.ToString().Trim();
+                maxLength = Math.Max(maxLength, stringValue.Length);
+
+                // Test for Int
+                if (couldBeInt && !int.TryParse(stringValue, out _))
+                {
+                    couldBeInt = false;
+                }
+
+                // Test for Decimal/Float
+                if (couldBeDecimal && !decimal.TryParse(stringValue, out _))
+                {
+                    couldBeDecimal = false;
+                }
+
+                // Test for DateTime
+                if (couldBeDateTime && !DateTime.TryParse(stringValue, out _))
+                {
+                    couldBeDateTime = false;
+                }
+
+                // Test for Boolean
+                if (couldBeBoolean)
+                {
+                    string lowerValue = stringValue.ToLower();
+                    if (!(lowerValue == "true" || lowerValue == "false" ||
+                          lowerValue == "yes" || lowerValue == "no" ||
+                          lowerValue == "1" || lowerValue == "0"))
+                    {
+                        couldBeBoolean = false;
+                    }
+                }
+            }
+
+            // If all values are null or empty, use NVARCHAR(MAX)
+            if (allNullOrEmpty)
+                return "NVARCHAR(MAX)";
+
+            // Determine the best type based on the flags
+            if (couldBeInt)
+                return "INT";
+            if (couldBeDecimal)
+                return "DECIMAL(18, 6)";
+            if (couldBeDateTime)
+                return "DATETIME";
+            if (couldBeBoolean)
+                return "BIT";
+
+            // For string values, determine the appropriate length
+            if (maxLength <= 50)
+                return $"NVARCHAR(50)";
+            else if (maxLength <= 255)
+                return $"NVARCHAR(255)";
+            else if (maxLength <= 4000)
+                return $"NVARCHAR(4000)";
+            else
+                return "NVARCHAR(MAX)";
         }
 
         private string SanitizeTableName(string tableName)
@@ -330,10 +411,10 @@ namespace TestV3.Services
                 connection.Open();
 
                 string query = @"
-            SELECT TABLE_NAME 
-            FROM INFORMATION_SCHEMA.TABLES 
-            WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = 'dbo'
-            ORDER BY TABLE_NAME";
+                    SELECT TABLE_NAME 
+                    FROM INFORMATION_SCHEMA.TABLES 
+                    WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = 'dbo'
+                    ORDER BY TABLE_NAME";
 
                 using (var command = new SqlCommand(query, connection))
                 {
@@ -361,10 +442,10 @@ namespace TestV3.Services
 
                 // First get the column names
                 string columnQuery = @"
-            SELECT COLUMN_NAME 
-            FROM INFORMATION_SCHEMA.COLUMNS 
-            WHERE TABLE_NAME = @TableName AND TABLE_SCHEMA = 'dbo'
-            ORDER BY ORDINAL_POSITION";
+                    SELECT COLUMN_NAME 
+                    FROM INFORMATION_SCHEMA.COLUMNS 
+                    WHERE TABLE_NAME = @TableName AND TABLE_SCHEMA = 'dbo'
+                    ORDER BY ORDINAL_POSITION";
 
                 using (var command = new SqlCommand(columnQuery, connection))
                 {
@@ -385,10 +466,10 @@ namespace TestV3.Services
                 // Then get the data with paging
                 int offset = (page - 1) * pageSize;
                 string dataQuery = $@"
-            SELECT * FROM [dbo].[{tableName}]
-            ORDER BY {orderByColumn}
-            OFFSET {offset} ROWS
-            FETCH NEXT {pageSize} ROWS ONLY";
+                    SELECT * FROM [dbo].[{tableName}]
+                    ORDER BY {orderByColumn}
+                    OFFSET {offset} ROWS
+                    FETCH NEXT {pageSize} ROWS ONLY";
 
                 using (var adapter = new SqlDataAdapter(dataQuery, connection))
                 {
@@ -411,3 +492,4 @@ namespace TestV3.Services
         }
     }
 }
+
