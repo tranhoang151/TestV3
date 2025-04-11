@@ -400,8 +400,6 @@ namespace TestV3.Services
             return sanitized;
         }
 
-        // Add these methods to the existing DynamicTableImportService class
-
         public List<string> GetAllTables()
         {
             var tables = new List<string>();
