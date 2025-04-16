@@ -85,9 +85,12 @@
             </div>
 
             <div class="mt-4">
-                <button id="exportToExcel" class="btn btn-success">
-                    <i class="bi bi-file-excel">Export to Excel</i>
-                </button>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <button id="exportToExcel" class="btn btn-success" style="margin-bottom: 20pt">
+                        <i class="bi bi-file-excel">Export to Excel</i>
+                    </button>
+                }
 
             <div id="tableContainer" class="table-responsive">
                 <!-- Table will be loaded here via AJAX -->
@@ -129,7 +132,7 @@
             }
         });
 
-        // Export to Excel
+         // Export to Excel
         $("#exportToExcel").click(function() {
             var tableName = $("#tableSelector").val();
             window.location.href = '@Url.Action("ExportToExcel", "Calculation")?tableName=' + tableName;

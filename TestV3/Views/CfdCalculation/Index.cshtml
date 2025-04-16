@@ -1,0 +1,122 @@
+﻿@{
+    ViewData["Title"] = "CFD Calculation";
+}
+
+<div class="container-fluid py-5">
+    <h2 class="text-center mb-5">CFD Calculation Dashboard</h2>
+
+    <div class="row g-4">
+        <!-- CFD PM1 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>CFD PM1</h5>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <p class="card-text flex-grow-1">View and calculate CFD data for PM1 power plant.</p>
+                    <a asp-action="PM1Index" class="btn btn-primary mt-auto">
+                        <i class="fas fa-table me-2"></i>View PM1 Data
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CFD PM4 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>CFD PM4</h5>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <p class="card-text flex-grow-1">View and calculate CFD data for PM4 power plant.</p>
+                    <a asp-action="PM4Index" class="btn btn-success mt-auto">
+                        <i class="fas fa-table me-2"></i>View PM4 Data
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CFD TB1 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>CFD TB1</h5>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <p class="card-text flex-grow-1">View and calculate CFD data for TB1 power plant.</p>
+                    <a asp-action="TB1Index" class="btn btn-primary mt-auto">
+                        <i class="fas fa-table me-2"></i>View TB1 Data
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CFD DH3-MR -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>CFD DH3-MR</h5>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <p class="card-text flex-grow-1">View and calculate CFD data for DH3-MR power plant.</p>
+                    <a asp-action="DH3MRIndex" class="btn btn-success mt-auto">
+                        <i class="fas fa-table me-2"></i>View DH3-MR Data
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CFD VT4&4MR -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>CFD VT4&4MR</h5>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <p class="card-text flex-grow-1">View and calculate CFD data for VT4&4MR power plant.</p>
+                    <a asp-action="VT4n4MRIndex" class="btn btn-primary mt-auto">
+                        <i class="fas fa-table me-2"></i>View VT4&4MR Data
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="col-12 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Summary</h5>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <p class="card-text flex-grow-1">View summary data for all CFD calculations.</p>
+                    <a asp-action="Summary" class="btn btn-info mt-auto">
+                        <i class="fas fa-chart-bar me-2"></i>View Summary
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.2s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .btn {
+        font-size: 1rem;
+        padding: 0.5rem 1.5rem;
+    }
+
+    .card-header {
+        font-size: 1.25rem;
+    }
+
+    .card-body p {
+        margin-bottom: 1rem;
+    }
+</style>

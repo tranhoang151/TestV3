@@ -179,7 +179,6 @@ namespace TestV3.Controllers
                             worksheet.Cell(1, colIndex++).Value = hour + "h30";
                             worksheet.Cell(1, colIndex++).Value = (hour + 1) + "h";
                         }
-                        worksheet.Cell(1, colIndex++).Value = "24h";
                         worksheet.Cell(1, colIndex++).Value = "Tổng";
 
                         // Apply formatting to header

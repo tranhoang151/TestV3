@@ -1,0 +1,71 @@
+﻿@model Dictionary<string, object>
+@{
+    ViewData["Title"] = "CFD Summary";
+}
+
+<div class="container-fluid">
+    <h2>CFD Summary</h2>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">PM1 Summary</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Total CFD Value</th>
+                            <td>@Model["PM1_TotalCfdValue"]</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">PM4 Summary</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Total CFD Value</th>
+                            <td>@Model["PM4_TotalCfdValue"]</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Common Data</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Average FMP Price</th>
+                            <td>@Model["AverageFmpPrice"]</td>
+                        </tr>
+                        <tr>
+                            <th>Date Range</th>
+                            <td>@Model["StartDate"] - @Model["EndDate"]</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to CFD Calculation
+            </a>
+        </div>
+    </div>
+</div>

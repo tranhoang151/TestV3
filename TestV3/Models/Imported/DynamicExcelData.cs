@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TestV3.Models
+namespace TestV3.Models.Imported
 {
     public class DynamicExcelData
     {

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 using TestV3.Data;
 using TestV3.Services;
 
@@ -18,14 +19,17 @@ namespace TestV3
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddDbContext<TestV3Context>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddDbContext<TestV3_v2_Context>(options =>
+               options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
             // Register DynamicTableImportService
             builder.Services.AddScoped<DynamicTableImportService>();
             // Add this line with your other service registrations
             builder.Services.AddScoped<ICalculationService, CalculationService>();
-
             builder.Services.AddScoped<ICspotCalculationService, CspotCalculationService>();
+            builder.Services.AddScoped<ICfdCalculationService, CfdCalculationService>();
+
 
             // Thêm Session
             builder.Services.AddDistributedMemoryCache();
@@ -35,6 +39,18 @@ namespace TestV3
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+
+
+            // Thêm Authentication
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Account/Login";
+                    options.AccessDeniedPath = "/Account/AccessDenied";
+                    options.LogoutPath = "/Account/Logout";
+                    options.Cookie.HttpOnly = true;
+                    options.ExpireTimeSpan = TimeSpan.FromDays(10);
+                });
 
             var app = builder.Build();
 
@@ -50,11 +66,12 @@ namespace TestV3
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthorization();
 
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=DynamicTableImport}/{action=Index}/{id?}")
+                pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
             // Thêm middleware Session

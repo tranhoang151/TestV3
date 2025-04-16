@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 
-namespace TestV3.Models
+namespace TestV3.Models.Imported
 {
     public class TableViewerModel
     {

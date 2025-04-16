@@ -29,8 +29,14 @@
             </form>
         </div>
         <div class="col-md-6 text-end">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-action="ExportToExcel" class="btn btn-success me-2">
+                    <i class="fas fa-file-excel"></i> Export to Excel
+                </a>
+            }
             <a asp-action="Report" class="btn btn-info">
-                <i class="fas fa-chart-bar"></i> Xem báo cáo
+                <i class="fas fa-chart-bar"></i> Sort
             </a>
         </div>
     </div>

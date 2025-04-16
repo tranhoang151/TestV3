@@ -1,0 +1,226 @@
+﻿@model IEnumerable<TestV3.Models.CfdTb1>
+@{
+    ViewData["Title"] = "CFD TB1 Data";
+}
+
+<div class="container-fluid">
+    <h2>CFD TB1 Data</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <form asp-action="CalculateTb1" method="post">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-calculator"></i> Calculate CFD TB1 Data
+                </button>
+            </form>
+        </div>
+        <div class="col-md-6 text-end">
+            <a asp-action="ExportTB1ToExcel" class="btn btn-success me-2">
+                <i class="fas fa-file-excel"></i> Export to Excel
+            </a>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">CFD TB1 Data</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Ngày</th>
+                            <th>0h30</th>
+                            <th>1h</th>
+                            <th>1h30</th>
+                            <th>2h</th>
+                            <th>2h30</th>
+                            <th>3h</th>
+                            <th>3h30</th>
+                            <th>4h</th>
+                            <th>4h30</th>
+                            <th>5h</th>
+                            <th>5h30</th>
+                            <th>6h</th>
+                            <th>6h30</th>
+                            <th>7h</th>
+                            <th>7h30</th>
+                            <th>8h</th>
+                            <th>8h30</th>
+                            <th>9h</th>
+                            <th>9h30</th>
+                            <th>10h</th>
+                            <th>10h30</th>
+                            <th>11h</th>
+                            <th>11h30</th>
+                            <th>12h</th>
+                            <th>12h30</th>
+                            <th>13h</th>
+                            <th>13h30</th>
+                            <th>14h</th>
+                            <th>14h30</th>
+                            <th>15h</th>
+                            <th>15h30</th>
+                            <th>16h</th>
+                            <th>16h30</th>
+                            <th>17h</th>
+                            <th>17h30</th>
+                            <th>18h</th>
+                            <th>18h30</th>
+                            <th>19h</th>
+                            <th>19h30</th>
+                            <th>20h</th>
+                            <th>20h30</th>
+                            <th>21h</th>
+                            <th>21h30</th>
+                            <th>22h</th>
+                            <th>22h30</th>
+                            <th>23h</th>
+                            <th>23h30</th>
+                            <th>24h</th>
+                            <th>Tổng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Ngay</td>
+                                    <td>@item.ChuKy0h30</td>
+                                    <td>@item.ChuKy1h</td>
+                                    <td>@item.ChuKy1h30</td>
+                                    <td>@item.ChuKy2h</td>
+                                    <td>@item.ChuKy2h30</td>
+                                    <td>@item.ChuKy3h</td>
+                                    <td>@item.ChuKy3h30</td>
+                                    <td>@item.ChuKy4h</td>
+                                    <td>@item.ChuKy4h30</td>
+                                    <td>@item.ChuKy5h</td>
+                                    <td>@item.ChuKy5h30</td>
+                                    <td>@item.ChuKy6h</td>
+                                    <td>@item.ChuKy6h30</td>
+                                    <td>@item.ChuKy7h</td>
+                                    <td>@item.ChuKy7h30</td>
+                                    <td>@item.ChuKy8h</td>
+                                    <td>@item.ChuKy8h30</td>
+                                    <td>@item.ChuKy9h</td>
+                                    <td>@item.ChuKy9h30</td>
+                                    <td>@item.ChuKy10h</td>
+                                    <td>@item.ChuKy10h30</td>
+                                    <td>@item.ChuKy11h</td>
+                                    <td>@item.ChuKy11h30</td>
+                                    <td>@item.ChuKy12h</td>
+                                    <td>@item.ChuKy12h30</td>
+                                    <td>@item.ChuKy13h</td>
+                                    <td>@item.ChuKy13h30</td>
+                                    <td>@item.ChuKy14h</td>
+                                    <td>@item.ChuKy14h30</td>
+                                    <td>@item.ChuKy15h</td>
+                                    <td>@item.ChuKy15h30</td>
+                                    <td>@item.ChuKy16h</td>
+                                    <td>@item.ChuKy16h30</td>
+                                    <td>@item.ChuKy17h</td>
+                                    <td>@item.ChuKy17h30</td>
+                                    <td>@item.ChuKy18h</td>
+                                    <td>@item.ChuKy18h30</td>
+                                    <td>@item.ChuKy19h</td>
+                                    <td>@item.ChuKy19h30</td>
+                                    <td>@item.ChuKy20h</td>
+                                    <td>@item.ChuKy20h30</td>
+                                    <td>@item.ChuKy21h</td>
+                                    <td>@item.ChuKy21h30</td>
+                                    <td>@item.ChuKy22h</td>
+                                    <td>@item.ChuKy22h30</td>
+                                    <td>@item.ChuKy23h</td>
+                                    <td>@item.ChuKy23h30</td>
+                                    <td>@item.ChuKy24h</td>
+                                    <td>@item.Tong</td>
+                                </tr>
+                            }
+
+                            <!-- Add totals row -->
+                            <tr class="table-primary fw-bold">
+                                <td class="text-center">Tổng cộng</td>
+                                <td>@Model.Sum(x => x.ChuKy0h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy1h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy1h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy2h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy2h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy3h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy3h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy4h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy4h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy5h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy5h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy6h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy6h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy7h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy7h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy8h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy8h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy9h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy9h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy10h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy10h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy11h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy11h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy12h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy12h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy13h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy13h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy14h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy14h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy15h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy15h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy16h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy16h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy17h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy17h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy18h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy18h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy19h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy19h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy20h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy20h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy21h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy21h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy22h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy22h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy23h ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy23h30 ?? 0)</td>
+                                <td>@Model.Sum(x => x.ChuKy24h ?? 0)</td>
+                                <td>@Model.Sum(x => x.Tong ?? 0)</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="9" class="text-center">No data available</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
